@@ -19,18 +19,18 @@
         />
 
     <Button
-        android:id="@+id/btnIniciarSesion"
-        android:layout_width="match_parent"
+        android:id="@+id/btnIniciarSesionMain"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:text="Iniciar Sesion"
+        android:text="Iniciar Sesión"
         android:textSize="16dp"
         android:paddingVertical="16dp"
         android:layout_marginTop="45dp"
         />
 
     <Button
-        android:id="@+id/btnRegistrarse"
-        android:layout_width="match_parent"
+        android:id="@+id/btnRegistrarseMain"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:text="Registrarse"
         android:textSize="16dp"
