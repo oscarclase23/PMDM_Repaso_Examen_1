@@ -33,6 +33,7 @@ class HomeActivity : AppCompatActivity() {
         }
         //Configurar RecyclerView
         cargarProductos()
+
     }
     private fun cargarProductos() {
         // 1. Crear datos de ejemplo
