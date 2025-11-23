@@ -1,8 +1,10 @@
 package com.example.examen
 
 
-import android.app.Activity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -13,11 +15,13 @@ import com.example.examen.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
+    // AÑADIDAS: Propiedades que faltaban
+    private lateinit var listaProductosCompleta: List<Producto>// ←NUEVA
+    private lateinit var productoAdapter: ProductoAdapter// ← NUEVA
 
     private val listaCesta = mutableListOf<Producto>()
 
     private lateinit var cestaAdapter: CestaAdapter
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,19 +45,22 @@ class HomeActivity : AppCompatActivity() {
 
         configurarCesta()
 
+        configurarSpinner()
+
     }
     private fun cargarProductos() {
         // 1. Crear datos de ejemplo
-        val listaProductos = listOf(
-            Producto(1, "Chanchito Clásico", "Alcancía tradicional de cerámica para ahorros", 15.99, R.mipmap.ic_launcher),
-            Producto(2, "Chanchito Premium", "Modelo premium con acabado dorado", 25.50, R.mipmap.ic_launcher),
-            Producto(3, "Chanchito Mini", "Versión compacta perfecta para niños", 9.99, R.mipmap.ic_launcher),
-            Producto(4, "Chanchito Gigante", "Alcancía de gran capacidad para metas grandes", 45.00, R.mipmap.ic_launcher),
-            Producto(5, "Chanchito Vintage", "Diseño retro inspirado en los años 60", 32.99, R.mipmap.ic_launcher),
-            Producto(6, "Chanchito Digital", "Con contador digital de ahorros", 55.00, R.mipmap.ic_launcher)
+        listaProductosCompleta = listOf(  // ← Asigna a la PROPIEDAD de clase
+            Producto(1, "Chanchito Clásico", "Alcancía tradicional de cerámica para ahorros", 15.99, R.mipmap.ic_launcher, "Categoría 1"),
+            Producto(2, "Chanchito Premium", "Modelo premium con acabado dorado", 25.50, R.mipmap.ic_launcher, "Categoría 1"),
+            Producto(3, "Chanchito Mini", "Versión compacta perfecta para niños", 9.99, R.mipmap.ic_launcher, "Categoría 1"),
+            Producto(4, "Chanchito Gigante", "Alcancía de gran capacidad para metas grandes", 45.00, R.mipmap.ic_launcher, "Categoría 2"),
+            Producto(5, "Chanchito Vintage", "Diseño retro inspirado en los años 60", 32.99, R.mipmap.ic_launcher, "Categoría 2"),
+            Producto(6, "Chanchito Digital", "Con contador digital de ahorros", 55.00, R.mipmap.ic_launcher, "Categoría 2")
         )
+
         // 2. Crear el adaptador pasándole la lista
-        val adapter = ProductoAdapter(listaProductos) { producto -> añadirProductoACesta(producto)}
+        productoAdapter = ProductoAdapter(listaProductosCompleta) { producto -> añadirProductoACesta(producto)}
 
 
         // 3. Configurar el RecyclerView
@@ -65,7 +72,7 @@ class HomeActivity : AppCompatActivity() {
                 false
             )
             // Asignar el adaptador
-            this.adapter = adapter
+            adapter = productoAdapter
         }
     }
 
@@ -76,7 +83,6 @@ class HomeActivity : AppCompatActivity() {
             onDisminuir = {posicion -> disminuirCantidad(posicion) },
             onEliminar = {posicion -> eliminarProducto(posicion)}
         )
-
                 binding.recyclerViewCestaHome.apply {
                     layoutManager = LinearLayoutManager(this@HomeActivity)
                     adapter = cestaAdapter
@@ -128,5 +134,54 @@ class HomeActivity : AppCompatActivity() {
 
         //Actualizar el TextView
         binding.tvTotalHome.text = String.format("%.2f",total)
+    }
+
+    private fun configurarSpinner(){
+        // 1. Crear lista de opciones (Todas + las categorías únicas)
+        val categorias = mutableListOf("Todas")
+        categorias.addAll(listaProductosCompleta.map { it.categoria }.distinct())
+
+        // 2. Crear ArrayAdapter para el Spinner
+        val spinnerAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            categorias
+        )
+
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+        // 3. Asignar adapter al Spinner
+        binding.spinnerCategoriaHome.adapter = spinnerAdapter
+
+        // 4. Configurar listener para detectar cambios
+        binding.spinnerCategoriaHome.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val categoriaSeleccionada = categorias[position]
+                filtrarProductosPorCategoria(categoriaSeleccionada)
+            }
+
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // No hacer nada
+            }
+        }
+    }
+
+    private fun filtrarProductosPorCategoria(categoria: String) {
+        // Filtrar productos según la categoría seleccionada
+        val productosFiltrados = if (categoria == "Todas") {
+            listaProductosCompleta  // Mostrar todos
+        } else {
+            listaProductosCompleta.filter { it.categoria == categoria }
+        }
+
+
+        // Actualizar el adapter con la lista filtrada
+        productoAdapter = ProductoAdapter(productosFiltrados) { producto ->
+            añadirProductoACesta(producto)
+        }
+
+
+        binding.recyclerViewProductosHome.adapter = productoAdapter
     }
 }

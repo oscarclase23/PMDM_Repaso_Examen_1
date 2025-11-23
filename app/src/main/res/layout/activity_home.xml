@@ -6,10 +6,22 @@
     android:padding="16dp"
     tools:context=".HomeActivity">
 
+    <!-- NUEVO: Spinner para filtrar por categoría -->
+    <Spinner
+        android:id="@+id/spinnerCategoriaHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:padding="12dp"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown" />
+    <!-- Ahora referenciarlo debajo del Spinner -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProductosHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerCategoriaHome"
+        android:layout_marginTop="8dp"
         android:clipToPadding="false"
         android:scrollbars="horizontal" />
 
@@ -25,7 +37,6 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp" />
 
-
     <!-- RECYCLERVIEW VERTICAL: Productos en la cesta -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewCestaHome"
@@ -36,7 +47,8 @@
         android:clipToPadding="false"
         android:paddingBottom="8dp"
         android:scrollbars="vertical" />
-
+    <!-- LinearLayout para el TOTAL -->
+    <!--Agregar debajo del ultimo recyclerview -->
     <LinearLayout
         android:id="@+id/layoutTotalHome"
         android:layout_width="match_parent"
@@ -46,7 +58,6 @@
         android:gravity="center_vertical"
         android:padding="16dp"
         android:background="#E0E0E0">
-
 
         <TextView
             android:id="@+id/tvLabelTotalHome"
@@ -58,7 +69,6 @@
             android:textStyle="bold"
             android:textColor="#212121" />
 
-
         <TextView
             android:id="@+id/tvTotalHome"
             android:layout_width="wrap_content"
@@ -68,5 +78,4 @@
             android:textStyle="bold"
             android:textColor="#4CAF50" />
     </LinearLayout>
-
 </RelativeLayout>
