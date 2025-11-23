@@ -83,7 +83,7 @@
                 android:src="@drawable/ic_shopping_cart_24"
                 android:contentDescription="Acción"
                 android:padding="8dp"
-                android:background="null"
+                android:background="@android:color/transparent"
                 />
         </LinearLayout>
     </RelativeLayout>
