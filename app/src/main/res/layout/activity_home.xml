@@ -6,11 +6,67 @@
     android:padding="16dp"
     tools:context=".HomeActivity">
 
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewProductos"
+        android:id="@+id/recyclerViewProductosHome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
         android:scrollbars="horizontal" />
+
+    <TextView
+        android:id="@+id/tvTituloCestaHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/recyclerViewProductosHome"
+        android:text="Mi Cesta"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="#212121"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" />
+
+
+    <!-- RECYCLERVIEW VERTICAL: Productos en la cesta -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewCestaHome"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@id/tvTituloCestaHome"
+        android:layout_above="@id/layoutTotalHome"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp"
+        android:scrollbars="vertical" />
+
+    <LinearLayout
+        android:id="@+id/layoutTotalHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:background="#E0E0E0">
+
+
+        <TextView
+            android:id="@+id/tvLabelTotalHome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Total:"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#212121" />
+
+
+        <TextView
+            android:id="@+id/tvTotalHome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00 €"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#4CAF50" />
+    </LinearLayout>
+
 </RelativeLayout>

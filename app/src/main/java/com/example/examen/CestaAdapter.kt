@@ -10,7 +10,11 @@ import com.example.examen.databinding.CardProductoCestaBinding
 
 
 class CestaAdapter(
-    private val listaProductos: List<Producto>  // ← Usa Producto, no ProductoCesta
+    private val listaProductos: List<Producto>,  // ← Usa Producto, no ProductoCesta
+    private val onAumentar: (Int) -> Unit,
+    private val onDisminuir: (Int) -> Unit,
+    private val onEliminar: (Int) -> Unit
+
 ) : RecyclerView.Adapter<CestaAdapter.CestaViewHolder>() {
 
 
@@ -40,20 +44,27 @@ class CestaAdapter(
             // Calcular precio total
             tvPrecioCesta.text = String.format("%.2f €", producto.precio)
 
-
             // Listeners de los botones (sin funcionalidad por ahora)
             btnDisminuirCesta.setOnClickListener {
-                Toast.makeText(root.context, "Disminuir: ${producto.titulo}", Toast.LENGTH_SHORT).show()
+                val posReal = holder.bindingAdapterPosition
+                if(posReal != RecyclerView.NO_POSITION){
+                    onDisminuir(posReal)
+                }
             }
 
 
             btnAumentarCesta.setOnClickListener {
-                Toast.makeText(root.context, "Aumentar: ${producto.titulo}", Toast.LENGTH_SHORT).show()
+                val posReal = holder.bindingAdapterPosition
+                if (posReal != RecyclerView.NO_POSITION) {
+                    onAumentar(posReal)
+                }
             }
 
-
             btnEliminarCesta.setOnClickListener {
-                Toast.makeText(root.context, "Eliminar: ${producto.titulo}", Toast.LENGTH_SHORT).show()
+                val posReal = holder.bindingAdapterPosition
+                if (posReal != RecyclerView.NO_POSITION) {
+                    onEliminar(posReal)
+                }
             }
         }
     }
