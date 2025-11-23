@@ -53,4 +53,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     // Añadir dependencia de la API
     implementation(libs.androidx.core.splashscreen)
+    // Añadir dependencia para la CardView
+    implementation("com.google.android.material:material:1.13.0")
 }
